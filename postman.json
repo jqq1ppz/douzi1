@@ -1,0 +1,329 @@
+{
+	"info": {
+		"name": "Douzi Game API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/signup",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "signup"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\",\n  \"name\": \"Test User\"\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Games",
+			"item": [
+				{
+					"name": "Create Game",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/games",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "games"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"winners\": [\"player1\", \"player2\"],\n  \"losers\": [\"player3\", \"player4\"],\n  \"gameType\": \"full\",\n  \"gameDayId\": \"{{gameDayId}}\",\n  \"amount\": 50,\n  \"sponsorships\": [\n    {\n      \"playerName\": \"player1\",\n      \"sponsorName\": \"sponsor1\",\n      \"percentage\": 100\n    }\n  ]\n}"
+						}
+					}
+				},
+				{
+					"name": "Get Player Balances",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/games/{{gameId}}/playerBalances",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "games", "{{gameId}}", "playerBalances"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Game Days",
+			"item": [
+				{
+					"name": "Get All Game Days",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/gamedays",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "gamedays"]
+						}
+					}
+				},
+				{
+					"name": "Create Game Day",
+					"request": {
+						"method": "POST",
+						"url": {
+							"raw": "{{baseUrl}}/api/gamedays",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "gamedays"]
+						}
+					}
+				},
+				{
+					"name": "Complete Game Day",
+					"request": {
+						"method": "POST",
+						"url": {
+							"raw": "{{baseUrl}}/api/gamedays/{{gameDayId}}/complete",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "gamedays", "{{gameDayId}}", "complete"]
+						}
+					}
+				},
+				{
+					"name": "Undo Game Day",
+					"request": {
+						"method": "PUT",
+						"url": {
+							"raw": "{{baseUrl}}/api/gamedays/{{gameDayId}}/undo",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "gamedays", "{{gameDayId}}", "undo"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Players",
+			"item": [
+				{
+					"name": "Get All Players",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/players",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "players"]
+						}
+					}
+				},
+				{
+					"name": "Create Player",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/players",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "players"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"New Player\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Get Player Stats",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/players/stats",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "players", "stats"]
+						}
+					}
+				},
+				{
+					"name": "Update Player Name",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/players/update",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "players", "update"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"oldName\": \"Old Name\",\n  \"newName\": \"New Name\"\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Sponsorships",
+			"item": [
+				{
+					"name": "Get All Sponsorships",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/sponsorships",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "sponsorships"]
+						}
+					}
+				},
+				{
+					"name": "Create Sponsorship",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/sponsorships",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "sponsorships"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"playerId\": \"{{playerId}}\",\n  \"sponsorName\": \"Sponsor Name\",\n  \"duration\": \"TODAY_ONLY\",\n  \"gameDayId\": \"{{gameDayId}}\"\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users"]
+						}
+					}
+				},
+				{
+					"name": "Get User Role",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/users/role",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "role"]
+						}
+					}
+				},
+				{
+					"name": "Get UI Preference",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/users/preference",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "preference"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Twitch",
+			"item": [
+				{
+					"name": "Get Broadcasts",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/twitch/broadcasts",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "twitch", "broadcasts"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"channels\": [\"channel1\", \"channel2\"]\n}"
+						}
+					}
+				},
+				{
+					"name": "Get Streams",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/twitch/streams",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "twitch", "streams"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"channels\": [\"channel1\", \"channel2\"]\n}"
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000"
+		},
+		{
+			"key": "gameDayId",
+			"value": "your-game-day-id"
+		},
+		{
+			"key": "gameId",
+			"value": "your-game-id"
+		},
+		{
+			"key": "playerId",
+			"value": "your-player-id"
+		}
+	]
+}

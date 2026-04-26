@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum GameDayStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+model GameDay {
+  id                  String            @id @default(uuid())
+  date                DateTime          @default(now())
+  creatorId           String?
+  creatorName         String
+  biggestWinner       String?
+  biggestLoser        String?
+  biggestWinnerAmount Int?
+  biggestLoserAmount  Int?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  isLocked            Boolean           @default(false)
+  lockedAt            DateTime?
+  lockedById          String?
+  games               Game[]            @relation("GameDayToGames")
+  payouts             Payout[]          @relation("GameDayToPayouts")
+  creator             User?             @relation(fields: [creatorId], references: [id])
+  lockedBy            User?             @relation("LockedGameDays", fields: [lockedById], references: [id])
+  status              GameDayStatus     @default(NOT_STARTED)
+  GameSponsorship     GameSponsorship[]
+}
+
+model Game {
+  id           String            @id @default(uuid())
+  winners      String[]
+  losers       String[]
+  timestamp    DateTime          @default(now())
+  gameDayId    String
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  createdBy    String
+  createdById  String?
+  gameType     GameType          @default(full)
+  gameDay      GameDay           @relation("GameDayToGames", fields: [gameDayId], references: [id], onDelete: Cascade)
+  map          String?
+  sponsorships GameSponsorship[]
+  amount       Int               @default(50)
+}
+
+model Player {
+  id           String            @id @default(uuid())
+  name         String            @unique
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  active       Boolean           @default(true)
+  sponsorships GameSponsorship[]
+}
+
+model User {
+  id             String    @id @default(uuid())
+  username       String    @unique
+  password       String
+  name           String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  role           UserRole  @default(USER)
+  uiPreference   Int       @default(1)
+  gameDays       GameDay[]
+  lockedGameDays GameDay[] @relation("LockedGameDays")
+}
+
+enum GameType {
+  full
+  surrendered
+}
+
+enum UserRole {
+  USER
+  MODERATOR
+  ADMIN
+}
+
+model Payout {
+  id           String    @id @default(uuid())
+  gameDayId    String
+  fromUser     String
+  toUser       String
+  originalFrom String?
+  originalTo   String?
+  amount       Int
+  isPaid       Boolean   @default(false)
+  paidAt       DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  gameDay      GameDay   @relation("GameDayToPayouts", fields: [gameDayId], references: [id], onDelete: Cascade)
+}
+
+model GameSponsorship {
+  id          String   @id @default(cuid())
+  playerId    String
+  sponsorName String
+  percentage  Int
+  gameId      String?
+  game        Game?    @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  player      Player   @relation(fields: [playerId], references: [id])
+  gameDayId   String?
+  gameDay     GameDay? @relation(fields: [gameDayId], references: [id])
+
+  @@index([playerId])
+}

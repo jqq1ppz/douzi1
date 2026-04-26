@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off"
+  },
+   "compilerOptions": {
+    "strict": true, // You can set this to false if you want to disable all strict type checks
+    "noImplicitAny": false // Ensure this is set to false to allow 'any' types
+    // ... other options ...
+  },
+  "scripts": {
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "build": "npm run lint && next build"
+  }
+}
